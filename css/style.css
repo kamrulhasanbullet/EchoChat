@@ -2,26 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Scrollbar - Only for messages area */
+#messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#messages::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 10px;
+}
+
+#messages::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* Room Item Styling */
 .room-item {
   padding: 12px 16px;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  color: #9ca3af;
 }
 
 .room-item:hover {
   background-color: #374151;
+  color: #e5e7eb;
 }
 
 .room-item.active {
   background-color: #1e40af;
   color: white;
+  border: 1px solid #3b82f6;
 }
 
-#messages::-webkit-scrollbar {
-  width: 6px;
+/* Message Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-#messages::-webkit-scrollbar-thumb {
-  background: #4b5563;
-  border-radius: 20px;
+
+.message-animate {
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* Sidebar smooth transition */
+#sidebar {
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Input focus improvement */
+#messageInput:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }

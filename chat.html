@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EchoRoom | Premium Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      .glass {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(12px);
+      }
+      .chat-bubble-me {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      }
+      .sidebar-item-active {
+        background: rgba(99, 102, 241, 0.1);
+        border-left: 3px solid #6366f1;
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#020617] text-slate-200 h-screen flex overflow-hidden">
+    <aside
+      id="sidebar"
+      class="fixed inset-y-0 left-0 w-80 bg-[#0f172a] border-r border-slate-800/50 flex flex-col z-30 -translate-x-full md:translate-x-0 md:relative transition-all duration-300 ease-in-out"
+    >
+      <div class="p-8 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20"
+          >
+            <i data-lucide="layers" class="w-6 h-6 text-white"></i>
+          </div>
+          <h1 class="text-xl font-bold tracking-tight text-white">
+            Echo<span class="text-indigo-500">Room</span>
+          </h1>
+        </div>
+        <button
+          id="closeMenu"
+          class="md:hidden p-2 hover:bg-slate-800 rounded-lg"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="px-6 mb-8">
+        <button
+          id="newRoomBtn"
+          class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white py-3 rounded-2xl font-medium flex items-center justify-center gap-2 transition-all active:scale-95"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          Create Workspace
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-4 custom-scrollbar">
+        <p
+          class="text-[11px] font-bold text-slate-500 px-4 mb-4 uppercase tracking-[0.2em]"
+        >
+          Channels
+        </p>
+        <nav class="space-y-1">
+          <a
+            href="#"
+            class="sidebar-item-active group flex items-center justify-between px-4 py-3 rounded-xl text-slate-200 transition-all"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-indigo-400 font-semibold">#</span>
+              <span class="font-medium">general-chat</span>
+            </div>
+            <span
+              class="bg-indigo-500 text-[10px] px-2 py-0.5 rounded-full text-white"
+              >12</span
+            >
+          </a>
+          <a
+            href="#"
+            class="group flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-slate-100 transition-all"
+          >
+            <span
+              class="text-slate-600 group-hover:text-slate-400 font-semibold"
+              >#</span
+            >
+            <span class="font-medium">design-ops</span>
+          </a>
+        </nav>
+      </div>
+
+      <div
+        class="p-6 border-t border-slate-800/50 bg-[#0f172a]/80 backdrop-blur-sm"
+      >
+        <div
+          class="flex items-center gap-4 p-2 rounded-2xl hover:bg-slate-800/40 transition-colors cursor-pointer group"
+        >
+          <div class="relative">
+            <img
+              src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff"
+              class="w-10 h-10 rounded-xl object-cover ring-2 ring-indigo-500/20"
+              alt="Avatar"
+            />
+            <div
+              class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-4 border-[#0f172a] rounded-full"
+            ></div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-bold text-white truncate">Alex Rivers</p>
+            <p class="text-xs text-slate-500 truncate">Pro Account</p>
+          </div>
+          <i
+            data-lucide="settings"
+            class="w-4 h-4 text-slate-500 group-hover:rotate-90 transition-transform"
+          ></i>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 relative bg-[#020617]">
+      <header
+        class="h-20 glass border-b border-slate-800/50 px-8 flex items-center justify-between sticky top-0 z-20"
+      >
+        <div class="flex items-center gap-4">
+          <button
+            id="menuBtn"
+            class="md:hidden p-2 text-slate-400 hover:bg-slate-800 rounded-lg"
+          >
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+          <div>
+            <h2
+              id="currentRoomName"
+              class="font-bold text-lg text-white flex items-center gap-2"
+            >
+              <span class="text-indigo-500">#</span> general-chat
+            </h2>
+            <p class="text-xs text-slate-500 font-medium">
+              Discussion about company-wide projects
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="hidden sm:flex -space-x-2">
+            <img
+              class="w-8 h-8 rounded-full border-2 border-[#020617]"
+              src="https://i.pravatar.cc/100?u=1"
+              alt=""
+            />
+            <img
+              class="w-8 h-8 rounded-full border-2 border-[#020617]"
+              src="https://i.pravatar.cc/100?u=2"
+              alt=""
+            />
+            <div
+              class="w-8 h-8 rounded-full border-2 border-[#020617] bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-400"
+            >
+              +5
+            </div>
+          </div>
+          <div class="h-8 w-[1px] bg-slate-800 mx-2"></div>
+          <button class="p-2 text-slate-400 hover:text-white transition-colors">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </header>
+
+      <div id="messages" class="flex-1 p-8 overflow-y-auto space-y-8">
+        <div
+          class="flex items-start gap-4 max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-500"
+        >
+          <img
+            src="https://i.pravatar.cc/100?u=3"
+            class="w-10 h-10 rounded-2xl"
+            alt=""
+          />
+          <div class="space-y-1">
+            <div class="flex items-center gap-3">
+              <span class="text-sm font-bold text-white">Sarah Jenkins</span>
+              <span
+                class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter"
+                >10:42 AM</span
+              >
+            </div>
+            <div
+              class="bg-slate-900 border border-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm text-slate-300 leading-relaxed"
+            >
+              Hey team! I've uploaded the new wireframes for the dashboard. Let
+              me know what you think about the dark mode contrast. 🎨
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex items-start gap-4 max-w-3xl ml-auto flex-row-reverse animate-in fade-in slide-in-from-bottom-4 duration-500"
+        >
+          <div
+            class="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center font-bold text-white"
+          >
+            Y
+          </div>
+          <div class="space-y-1 text-right">
+            <div class="flex items-center gap-3 justify-end">
+              <span
+                class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter"
+                >10:45 AM</span
+              >
+              <span class="text-sm font-bold text-white">You</span>
+            </div>
+            <div
+              class="chat-bubble-me p-4 rounded-2xl rounded-tr-none shadow-lg shadow-indigo-500/10 text-white leading-relaxed"
+            >
+              Looking great, Sarah! The contrast ratios look much better on OLED
+              screens now.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer
+        class="p-6 bg-gradient-to-t from-[#020617] via-[#020617] to-transparent"
+      >
+        <div class="max-w-5xl mx-auto relative group">
+          <div
+            class="absolute inset-y-0 left-5 flex items-center text-slate-500 group-focus-within:text-indigo-400 transition-colors"
+          >
+            <i data-lucide="command" class="w-5 h-5"></i>
+          </div>
+          <input
+            type="text"
+            id="messageInput"
+            class="w-full bg-slate-900/50 border border-slate-800 rounded-2xl pl-14 pr-20 py-5 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all placeholder-slate-600 text-slate-200 shadow-2xl"
+            placeholder="Type a message or use / commands..."
+          />
+          <div class="absolute inset-y-2 right-2 flex items-center gap-2">
+            <button
+              class="p-2 text-slate-500 hover:text-slate-300 hidden sm:block"
+            >
+              <i data-lucide="smile" class="w-5 h-5"></i>
+            </button>
+            <button
+              id="sendBtn"
+              class="bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-xl shadow-lg shadow-indigo-600/20 transition-all active:scale-95"
+            >
+              <i data-lucide="send-horizontal" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+        <p
+          class="text-center text-[10px] text-slate-600 mt-4 uppercase tracking-[0.2em]"
+        >
+          End-to-End Encrypted Workspace
+        </p>
+      </footer>
+    </main>
+
+    <script>
+      lucide.createIcons();
+
+      // Basic sidebar toggle for mobile
+      const menuBtn = document.getElementById("menuBtn");
+      const closeMenu = document.getElementById("closeMenu");
+      const sidebar = document.getElementById("sidebar");
+
+      menuBtn.addEventListener("click", () =>
+        sidebar.classList.remove("-translate-x-full"),
+      );
+      closeMenu.addEventListener("click", () =>
+        sidebar.classList.add("-translate-x-full"),
+      );
+    </script>
+  </body>
+</html>
